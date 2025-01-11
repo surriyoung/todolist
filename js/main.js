@@ -1,3 +1,51 @@
+// 화살표 함수로 변경
+$(document).ready(() => {
+  getTodosListAll();
+});
+
+// 전체 todo가져오기
+function getTodosListAll() {
+  todos = JSON.parse(localStorage.getItem("todos"));
+  if (todos == null) {
+    todos = { todo: [] };
+  }
+  for (var i = 0; i < todos.todo.length; i++) {
+    if (todos.todo[i].checked == 0) {
+      console.log("???" + todos.todo[i].checked);
+      reusltHtml =
+        `
+                        <li class="list">
+                        <div class="check" id="chk" name="ck" onclick="checkClick(` +
+        todos.todo[i].id +
+        `)"></div>
+                        <p class="cont">` +
+        todos.todo[i].content +
+        `</p>
+                        <button type='button' class="delete"  id="delete" onclick="deleteClick(` +
+        todos.todo[i].id +
+        `)"><span></span><span></span></button>
+                        </li>
+                    `;
+    } else {
+      reusltHtml =
+        `
+                        <li class="list">
+                        <div class="check checked" id="chk" name="ck" onclick="checkClick(` +
+        todos.todo[i].id +
+        `)"></div>
+                        <p class="cont">` +
+        todos.todo[i].content +
+        `</p>
+                        <button type='button' class="delete"  id="delete" onclick="deleteClick(` +
+        todos.todo[i].id +
+        `)"><span></span><span></span></button>
+                        </li>
+                    `;
+    }
+    $(".list:last-child").after(reusltHtml);
+  }
+}
+
 let todos = {};
 let checkBox;
 
@@ -39,6 +87,7 @@ function addTodo(txt) {
                 `;
   $(".list:last-child").after(reusltHtml);
 }
+
 function enterClick() {
   var code = window.event.keyCode;
   txt = document.getElementById("todoInput").value;
@@ -117,49 +166,3 @@ function checkClick(selectedId) {
   $(".list:not(:first-child)").remove();
   getTodosListAll();
 }
-
-// 전체 todo가져오기
-function getTodosListAll() {
-  todos = JSON.parse(localStorage.getItem("todos"));
-  if (todos == null) {
-    todos = { todo: [] };
-  }
-  for (var i = 0; i < todos.todo.length; i++) {
-    if (todos.todo[i].checked == 0) {
-      console.log("???" + todos.todo[i].checked);
-      reusltHtml =
-        `
-                        <li class="list">
-                        <div class="check" id="chk" name="ck" onclick="checkClick(` +
-        todos.todo[i].id +
-        `)"></div>
-                        <p class="cont">` +
-        todos.todo[i].content +
-        `</p>
-                        <button type='button' class="delete"  id="delete" onclick="deleteClick(` +
-        todos.todo[i].id +
-        `)"><span></span><span></span></button>
-                        </li>
-                    `;
-    } else {
-      reusltHtml =
-        `
-                        <li class="list">
-                        <div class="check checked" id="chk" name="ck" onclick="checkClick(` +
-        todos.todo[i].id +
-        `)"></div>
-                        <p class="cont">` +
-        todos.todo[i].content +
-        `</p>
-                        <button type='button' class="delete"  id="delete" onclick="deleteClick(` +
-        todos.todo[i].id +
-        `)"><span></span><span></span></button>
-                        </li>
-                    `;
-    }
-    $(".list:last-child").after(reusltHtml);
-  }
-}
-$(document).ready(function () {
-  getTodosListAll();
-});
